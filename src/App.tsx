@@ -1,6 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import PortfolioPage from './pages/PortfolioPage';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import DefaultLayout from './layout/DefaultLayout';
+import PortfolioPage from './pages/PortfolioPage';
+import StocksPage from './pages/StocksPage';
+import UserMsg from './components/UserMsg';
+import LoginSignup from './pages/loginSignup';
 
 function App() {
 	return (
@@ -9,9 +12,13 @@ function App() {
 				<main>
 					<Routes>
 						<Route element={<DefaultLayout />}>
-							<Route path="/" element={<PortfolioPage />} />
+							<Route path="/portfolio" element={<PortfolioPage />} />
+							<Route path="/" element={<StocksPage />} />
+							<Route path="/login" element={<LoginSignup />} />
+							<Route path="/signup" element={<LoginSignup />} />
 						</Route>
 					</Routes>
+					<UserMsg />
 				</main>
 			</Router>
 		</div>
