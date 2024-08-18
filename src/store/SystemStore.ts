@@ -1,0 +1,29 @@
+import { action, makeObservable, observable } from 'mobx';
+import { IMsg } from '../interfaces/msg.interface';
+
+class SystemStore {
+	msg: IMsg | null = null;
+
+	constructor() {
+		makeObservable(this, {
+			msg: observable,
+			setMsg: action,
+		});
+	}
+
+	setMsg = (msg: IMsg | null) => {
+		this.msg = msg;
+	};
+
+	showErrorMsg = (...args: any[]) => {
+		const txt = args.join(' ');
+		this.setMsg({ type: 'error', txt });
+	};
+
+	showSuccessMsg = (...args: any[]) => {
+		const txt = args.join(' ');
+		this.setMsg({ type: 'success', txt });
+	};
+}
+
+export const systemStore = new SystemStore();
