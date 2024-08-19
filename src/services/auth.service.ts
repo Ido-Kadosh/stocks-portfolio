@@ -13,6 +13,7 @@ const login = async (credentials: ICredentials) => {
 const signup = async (credentials: ICredentials) => {
 	const { token } = await httpService.post(BASE_URL + 'signup', credentials);
 	const { id: _id, email } = jwtDecode<{ id: string; email: string }>(token);
+	localStorage.setItem('token', token);
 	return _saveLocalUser({ _id, email });
 };
 

@@ -3,7 +3,6 @@ import { observer } from 'mobx-react';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ICredentials } from '../interfaces/user.interface';
-import { authService } from '../services/auth.service';
 import { systemStore } from '../store/SystemStore';
 import { userStore } from '../store/UserStore';
 
@@ -18,14 +17,12 @@ const LoginSignUp = () => {
 
 	const onSubmit: FormProps<ICredentials>['onFinish'] = async credentials => {
 		try {
-			const authFunction = isSignUp ? 'signup' : 'login';
-			const user = await authService[authFunction](credentials);
-			userStore.setUser(user);
-			const successMsg = `${isSignUp ? 'signup' : 'login'} successful`;
+			const authFunction = isSignUp ? 'signUp' : 'login';
+			const user = await userStore[authFunction](credentials);
+			const successMsg = `${isSignUp ? 'signUp' : 'login'} successful`;
 			systemStore.showSuccessMsg(successMsg);
 			navigate('/');
 		} catch (err: any) {
-			console.log(err);
 			const errorMsg = err.response?.data?.message || 'Something went wrong';
 			systemStore.showErrorMsg(errorMsg);
 		}
@@ -59,7 +56,7 @@ const LoginSignUp = () => {
 
 			<Form.Item wrapperCol={{ offset: 8, span: 16 }}>
 				<Button type="primary" htmlType="submit">
-					Submit
+					{isSignUp ? 'Sign Up' : 'Login'}
 				</Button>
 			</Form.Item>
 		</Form>
