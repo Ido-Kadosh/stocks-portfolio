@@ -21,11 +21,9 @@ class UserStore {
 		});
 	}
 
-	logOut = async () => {
-		await authService.logout();
-		runInAction(() => {
-			this.user = null;
-		});
+	logOut = () => {
+		authService.logout();
+		this.user = null;
 	};
 
 	signUp = async (credentials: ICredentials) => {

@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import { STORAGE_KEY_LOGGED_IN_USER } from './auth.service';
+import { STORAGE_KEY_JWT_TOKEN, STORAGE_KEY_LOGGED_IN_USER } from './auth.service';
 
 const BASE_URL = process.env.NODE_ENV === 'production' ? '/api/' : '//localhost:3030/api/';
 
@@ -24,14 +24,14 @@ export const httpService = {
 
 const ajax = async (endpoint: string, method: string, data?: object) => {
 	try {
-		const token = localStorage.getItem('token');
+		const token = localStorage.getItem(STORAGE_KEY_JWT_TOKEN);
 
 		const headers: any = {};
 
 		if (token) {
 			headers.Authorization = `Bearer ${token}`;
 		}
-
+		console.log(headers);
 		const res = await axios({
 			url: `${BASE_URL}${endpoint}`,
 			method,
@@ -47,9 +47,10 @@ const ajax = async (endpoint: string, method: string, data?: object) => {
 
 		// Handle unauthorized access
 		if (err.response?.status === 401) {
-			if (localStorage.getItem(STORAGE_KEY_LOGGED_IN_USER)) {
-				// localStorage.removeItem(STORAGE_KEY_LOGGED_IN_USER);
-				// window.location.reload();
+			if (localStorage.getItem(STORAGE_KEY_LOGGED_IN_USER) || localStorage.getItem(STORAGE_KEY_JWT_TOKEN)) {
+				localStorage.removeItem(STORAGE_KEY_LOGGED_IN_USER);
+				localStorage.removeItem(STORAGE_KEY_JWT_TOKEN);
+				window.location.reload();
 			}
 		}
 

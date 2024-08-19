@@ -18,8 +18,8 @@ const LoginSignUp = () => {
 	const onSubmit: FormProps<ICredentials>['onFinish'] = async credentials => {
 		try {
 			const authFunction = isSignUp ? 'signUp' : 'login';
-			const user = await userStore[authFunction](credentials);
-			const successMsg = `${isSignUp ? 'signUp' : 'login'} successful`;
+			await userStore[authFunction](credentials);
+			const successMsg = `${isSignUp ? 'sign up' : 'login'} successful`;
 			systemStore.showSuccessMsg(successMsg);
 			navigate('/');
 		} catch (err: any) {

@@ -8,15 +8,15 @@ const query = async (pageNumber: number = 5): Promise<{ stocks: IStock[]; count:
 };
 
 const addUserStock = async (stock: IStock): Promise<IStock[]> => {
-	return httpService.put('auth/' + 'stocks', stock);
+	return httpService.put(BASE_URL + 'user/', stock);
 };
 
 const getUserStocks = async (): Promise<IStock[]> => {
-	return httpService.get('auth/' + 'stocks');
+	return httpService.get(BASE_URL + 'user/');
 };
 
 const removeUserStock = async (stock: IStock): Promise<IStock[]> => {
-	return httpService.delete('auth/' + 'stock/' + stock.symbol);
+	return httpService.delete(BASE_URL + 'user/' + stock.symbol);
 };
 
 export const stockService = {

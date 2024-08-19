@@ -32,16 +32,6 @@ const DefaultLayout = () => {
 
 	const location = useLocation();
 
-	const onLogout = async () => {
-		try {
-			await userStore.logOut();
-			systemStore.showSuccessMsg('successfully added stock');
-		} catch (err: any) {
-			const errorMsg = err.response?.data?.message || 'Something went wrong';
-			systemStore.showErrorMsg(errorMsg);
-		}
-	};
-
 	return (
 		<Layout style={{ minHeight: '100vh' }}>
 			<Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
@@ -56,7 +46,7 @@ const DefaultLayout = () => {
 						{!!userStore.user && (
 							<div>
 								<span>Logged in by: {userStore.user.email}</span>
-								<Button type="primary" icon={<LogoutOutlined />} onClick={onLogout}>
+								<Button type="primary" icon={<LogoutOutlined />} onClick={userStore.logOut}>
 									Logout
 								</Button>
 							</div>

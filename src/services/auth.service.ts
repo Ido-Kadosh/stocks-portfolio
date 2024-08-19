@@ -3,6 +3,7 @@ import { httpService } from './http.service';
 import { jwtDecode } from 'jwt-decode';
 
 export const STORAGE_KEY_LOGGED_IN_USER = 'loggedInUser';
+export const STORAGE_KEY_JWT_TOKEN = 'jwtToken';
 const BASE_URL = 'auth/';
 
 const login = async (credentials: ICredentials) => {
@@ -13,14 +14,13 @@ const login = async (credentials: ICredentials) => {
 const signup = async (credentials: ICredentials) => {
 	const { token } = await httpService.post(BASE_URL + 'signup', credentials);
 	const { id: _id, email } = jwtDecode<{ id: string; email: string }>(token);
-	localStorage.setItem('token', token);
+	localStorage.setItem(STORAGE_KEY_JWT_TOKEN, token);
 	return _saveLocalUser({ _id, email });
 };
 
-const logout = async (): Promise<{ msg: any }> => {
-	const result = await httpService.post(BASE_URL + 'logout');
+const logout = () => {
 	localStorage.removeItem(STORAGE_KEY_LOGGED_IN_USER);
-	return result;
+	localStorage.removeItem(STORAGE_KEY_JWT_TOKEN);
 };
 
 const changePassword = (credentials: ICredentials): Promise<{ msg: string }> => {
