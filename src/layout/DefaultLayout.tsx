@@ -1,10 +1,12 @@
-import { DesktopOutlined, PieChartOutlined } from '@ant-design/icons';
+import { DesktopOutlined, LogoutOutlined, PieChartOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Button, Layout, Menu, theme } from 'antd';
 import React, { useState } from 'react';
-import { Outlet } from 'react-router';
-
-const { Content, Footer, Sider } = Layout;
+import { Link, Outlet, useLocation } from 'react-router-dom';
+import { userStore } from '../store/UserStore';
+import { observer } from 'mobx-react';
+import { systemStore } from '../store/SystemStore';
+const { Header, Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -18,8 +20,8 @@ function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode,
 }
 
 const items: MenuItem[] = [
-	getItem('Stocks', '1', <PieChartOutlined />),
-	getItem('Portfolio', '2', <DesktopOutlined />),
+	getItem(<Link to="/">Stocks</Link>, '/', <PieChartOutlined />),
+	getItem(<Link to="/portfolio">Portfolio</Link>, '/portfolio', <DesktopOutlined />),
 ];
 
 const DefaultLayout = () => {
@@ -28,23 +30,45 @@ const DefaultLayout = () => {
 		token: { colorBgContainer, borderRadiusLG },
 	} = theme.useToken();
 
+	const location = useLocation();
+
+	const onLogout = async () => {
+		try {
+			await userStore.logOut();
+			systemStore.showSuccessMsg('successfully added stock');
+		} catch (err: any) {
+			const errorMsg = err.response?.data?.message || 'Something went wrong';
+			systemStore.showErrorMsg(errorMsg);
+		}
+	};
+
 	return (
 		<Layout style={{ minHeight: '100vh' }}>
 			<Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
 				<div className="demo-logo-vertical" />
-				<Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+				<Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} selectedKeys={[location.pathname]} />
 			</Sider>
-			<Layout>
-				<Content style={{ margin: '0 16px' }}>
-					<Breadcrumb style={{ margin: '16px 0' }}>
-						<Breadcrumb.Item>User</Breadcrumb.Item>
-						<Breadcrumb.Item>Bill</Breadcrumb.Item>
-					</Breadcrumb>
 
+			<Layout className="max-h-screen">
+				<Header style={{ padding: 0, background: colorBgContainer }}>
+					<div className="flex gap-4">
+						{!userStore.user && <Link to={'/signup'}>Sign up</Link>}
+						{!!userStore.user && (
+							<div>
+								<span>Logged in by: {userStore.user.email}</span>
+								<Button type="primary" icon={<LogoutOutlined />} onClick={onLogout}>
+									Logout
+								</Button>
+							</div>
+						)}
+					</div>
+				</Header>
+				<Content style={{ margin: '0 16px' }} className="flex-1">
 					<div
 						style={{
 							padding: 24,
-							minHeight: 360,
+							flex: 1,
+							height: '100%',
 							background: colorBgContainer,
 							borderRadius: borderRadiusLG,
 						}}
@@ -60,4 +84,4 @@ const DefaultLayout = () => {
 	);
 };
 
-export default DefaultLayout;
+export default observer(DefaultLayout);

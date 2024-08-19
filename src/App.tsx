@@ -9,17 +9,15 @@ function App() {
 	return (
 		<div>
 			<Router>
-				<main>
-					<Routes>
-						<Route element={<DefaultLayout />}>
-							<Route path="/portfolio" element={<PortfolioPage />} />
-							<Route path="/" element={<StocksPage />} />
-							<Route path="/login" element={<LoginSignup />} />
-							<Route path="/signup" element={<LoginSignup />} />
-						</Route>
-					</Routes>
-					<UserMsg />
-				</main>
+				<Routes>
+					<Route element={<DefaultLayout />}>
+						<Route path="/portfolio" element={<PortfolioPage />} />
+						<Route path="/" element={<StocksPage />} />
+						<Route path="/login" element={<LoginSignup />} />
+						<Route path="/signup" element={<LoginSignup />} />
+					</Route>
+				</Routes>
+				<UserMsg />
 			</Router>
 		</div>
 	);
