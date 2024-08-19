@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable, runInAction } from 'mobx';
 import { ICredentials, IUser } from '../interfaces/user.interface';
 import { authService } from '../services/auth.service';
 import { IStock } from '../interfaces/stock.interface';
@@ -20,34 +20,47 @@ class UserStore {
 			removeUserStock: action,
 		});
 	}
+
 	logOut = async () => {
 		await authService.logout();
-		this.user = null;
+		runInAction(() => {
+			this.user = null;
+		});
 	};
 
 	signUp = async (credentials: ICredentials) => {
 		const user = await authService.signup(credentials);
-		this.user = user;
+		runInAction(() => {
+			this.user = user;
+		});
 	};
 
 	login = async (credentials: ICredentials) => {
 		const user = await authService.login(credentials);
-		this.user = user;
+		runInAction(() => {
+			this.user = user;
+		});
 	};
 
 	addUserStock = async (stock: IStock) => {
 		const userStocks = await stockService.addUserStock(stock);
-		this.userStocks = userStocks;
+		runInAction(() => {
+			this.userStocks = userStocks;
+		});
 	};
 
 	getUserStocks = async () => {
 		const userStocks = await stockService.getUserStocks();
-		this.userStocks = userStocks;
+		runInAction(() => {
+			this.userStocks = userStocks;
+		});
 	};
 
 	removeUserStock = async (stock: IStock) => {
 		const userStocks = await stockService.removeUserStock(stock);
-		this.userStocks = userStocks;
+		runInAction(() => {
+			this.userStocks = userStocks;
+		});
 	};
 }
 
