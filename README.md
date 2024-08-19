@@ -1,50 +1,38 @@
-# React + TypeScript + Vite
+# Stocks Portfolio
+A stock Portfolio and management application. allowing to add and remove stocks to the portfolio.
+A user must be logged in to add/remove stocks to his portfolio. unautharized access is blocked.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Note:
+For this to work, you will need to add a few things to .env file, which is located on the root of the backend project, namely:
 
-Currently, two official plugins are available:
+**API_KEY** : an api key for the stocks API as stated [here](https://site.financialmodelingprep.com/developer/docs)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**DB_URI** : the URI of mongodb, which contains a "users" collection
 
-## Expanding the ESLint configuration
+**JWT_EXPIRES**: a string/number containing the time of expiery for JWT tokens
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+**JWT_SECRET**: a random string, to be used as a secret for JWT encryption
 
-- Configure the top-level `parserOptions` property like this:
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+# How To Run:
+
+clone the repository:
+
+```
+git clone https://github.com/Ido-Kadosh/stocks-portfolio.git
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+also clone the backend repository:
+```
+git clone https://github.com/Ido-Kadosh/stocks-portfolio-backend.git
+```
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+navigate to backend folder, and run it using:
+```
+npm run start
+```
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+navigate to frontend folder, and run it using:
+```
+npm run dev
 ```
