@@ -24,22 +24,35 @@ export const httpService = {
 
 const ajax = async (endpoint: string, method: string, data?: object) => {
 	try {
+		const token = localStorage.getItem('token');
+
+		const headers: any = {};
+
+		if (token) {
+			headers.Authorization = `Bearer ${token}`;
+		}
+
 		const res = await axios({
 			url: `${BASE_URL}${endpoint}`,
 			method,
 			data,
 			params: method === 'GET' ? data : null,
+			headers,
 		});
+
 		return res.data;
 	} catch (err: any) {
 		console.log(`Had Issues ${method}ing to the backend, endpoint: ${endpoint}, with data: `, data);
 		console.dir(err);
+
+		// Handle unauthorized access
 		if (err.response?.status === 401) {
 			if (localStorage.getItem(STORAGE_KEY_LOGGED_IN_USER)) {
-				localStorage.removeItem(STORAGE_KEY_LOGGED_IN_USER);
-				window.location.reload();
+				// localStorage.removeItem(STORAGE_KEY_LOGGED_IN_USER);
+				// window.location.reload();
 			}
 		}
+
 		throw err;
 	}
 };
