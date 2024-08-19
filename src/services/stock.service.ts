@@ -3,7 +3,7 @@ import { httpService } from './http.service';
 
 const BASE_URL = 'stocks/';
 
-const query = async (pageNumber: number = 5): Promise<IStock[]> => {
+const query = async (pageNumber: number = 5): Promise<{ stocks: IStock[]; count: number }> => {
 	return httpService.get(BASE_URL, { page: pageNumber });
 };
 
