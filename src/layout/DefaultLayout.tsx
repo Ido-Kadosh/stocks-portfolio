@@ -69,6 +69,7 @@ const DefaultLayout = () => {
 							padding: 24,
 							flex: 1,
 							height: '100%',
+							display: 'flex',
 							background: colorBgContainer,
 							borderRadius: borderRadiusLG,
 						}}
