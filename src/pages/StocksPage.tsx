@@ -27,6 +27,10 @@ const StocksPage = () => {
 			}
 		};
 		getStocks();
+
+		return () => {
+			systemStore.setIsLoading(false);
+		};
 	}, [pageNumber]);
 
 	const onAddUserStock = async (stock: IStock) => {

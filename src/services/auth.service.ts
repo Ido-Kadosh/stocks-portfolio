@@ -21,6 +21,7 @@ const signup = async (credentials: ICredentials) => {
 const logout = () => {
 	localStorage.removeItem(STORAGE_KEY_LOGGED_IN_USER);
 	localStorage.removeItem(STORAGE_KEY_JWT_TOKEN);
+	window.location.reload();
 };
 
 const changePassword = (credentials: ICredentials): Promise<{ msg: string }> => {
